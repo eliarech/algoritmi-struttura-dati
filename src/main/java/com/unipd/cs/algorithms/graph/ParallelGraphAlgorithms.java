@@ -72,21 +72,24 @@ public class ParallelGraphAlgorithms {
      */
     public static Set<Integer> bfsParallelo(Graph grafo, int verticeIniziale, int numThread) {
         final Set<Integer> visitati = Collections.synchronizedSet(new HashSet<>());
-        final Set<Integer> livelloCorrente = Collections.synchronizedSet(new HashSet<>());
-        final Set<Integer> prossimoLivello = Collections.synchronizedSet(new HashSet<>());
-        
+        Set<Integer> livelloCorrente = Collections.synchronizedSet(new HashSet<>());
+        Set<Integer> prossimoLivello = Collections.synchronizedSet(new HashSet<>());
+
         // Inizia con il vertice iniziale
         visitati.add(verticeIniziale);
         livelloCorrente.add(verticeIniziale);
-        
+
         // Crea un pool di thread
         ExecutorService executor = Executors.newFixedThreadPool(numThread);
-        
+
         // Elabora ogni livello nel BFS
         while (!livelloCorrente.isEmpty()) {
-            prossimoLivello.clear();
+            // Clear next level set before processing current level
+            final Set<Integer> nextLevelFinal = prossimoLivello;
+            nextLevelFinal.clear();
+
             final CountDownLatch latch = new CountDownLatch(livelloCorrente.size());
-            
+
             // Elabora tutti i vertici nel livello corrente in parallelo
             for (final int vertice : livelloCorrente) {
                 executor.submit(() -> {
@@ -94,7 +97,7 @@ public class ParallelGraphAlgorithms {
                         for (int vicino : grafo.getNeighbors(vertice)) {
                             // Prova ad aggiungere a visitati (restituisce false se già visitato)
                             if (visitati.add(vicino)) {
-                                prossimoLivello.add(vicino);
+                                nextLevelFinal.add(vicino);
                             }
                         }
                     } finally {
@@ -102,20 +105,20 @@ public class ParallelGraphAlgorithms {
                     }
                 });
             }
-            
+
             // Attende il completamento di tutti i task a questo livello
             try {
                 latch.await();
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
-            
-            // Scambia i livelli
+
+            // Prepara per la prossima iterazione
             Set<Integer> temp = livelloCorrente;
             livelloCorrente = prossimoLivello;
             prossimoLivello = temp;
         }
-        
+
         executor.shutdown();
         return visitati;
     }
