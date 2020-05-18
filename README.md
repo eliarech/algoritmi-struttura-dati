@@ -1,9 +1,9 @@
-# Algoritmi Paralleli e Sequenziali in Java
+﻿# Algoritmi Paralleli e Sequenziali in Java
 
 Questo progetto implementa e confronta vari algoritmi paralleli e sequenziali per operazioni comuni come moltiplicazione di matrici, ordinamento e attraversamento di grafi.
 
 ## Corso Algoritmi e Struttura Dati
-**Università degli Studi di Padova**  
+**UniversitÃ  degli Studi di Padova**  
 **Anno Accademico 2019/2020**
 
 **Studente:** Elia Rech  
@@ -11,11 +11,11 @@ Questo progetto implementa e confronta vari algoritmi paralleli e sequenziali pe
 
 ## Struttura del Progetto
 
-Il progetto è organizzato nei seguenti pacchetti:
+Il progetto Ã¨ organizzato nei seguenti pacchetti:
 
-- `com.unipd.cs.algorithms`: Contiene algoritmi di ordinamento
-- `com.unipd.cs.algorithms.matrix`: Contiene algoritmi per moltiplicazione di matrici
-- `com.unipd.cs.algorithms.graph`: Contiene algoritmi per l'attraversamento di grafi
+- com.unipd.cs.algorithms: Contiene algoritmi di ordinamento
+- com.unipd.cs.algorithms.matrix: Contiene algoritmi per moltiplicazione di matrici
+- com.unipd.cs.algorithms.graph: Contiene algoritmi per l'attraversamento di grafi
 
 ## Algoritmi Implementati
 
@@ -43,17 +43,17 @@ Il progetto è organizzato nei seguenti pacchetti:
 
 Per compilare il progetto:
 
-```bash
+`ash
 mvn clean compile
-```
+`
 
 Per eseguire i test di benchmark:
 
-```bash
+`ash
 mvn exec:java -Dexec.mainClass="com.unipd.cs.algorithms.matrix.MatrixMultiplication"
 mvn exec:java -Dexec.mainClass="com.unipd.cs.algorithms.ParallelSortingAlgorithms"
 mvn exec:java -Dexec.mainClass="com.unipd.cs.algorithms.graph.ParallelGraphAlgorithms"
-```
+`
 
 ## Risultati di Benchmark
 
